@@ -1,0 +1,725 @@
+//This is a WIP and will be updated accordingly
+
+import java.util.*;
+import java.math.*;
+
+class Main {
+    
+  //List of vars
+  Scanner input = new Scanner(System.in);//user input
+  ArrayList inv = new ArrayList<String>();//inventory
+  ArrayList deathList = new ArrayList<String>();//list of causes of death
+  String name;//player name
+  String choice;//general choice var
+  String whichSkill;//controls which skill to add points to
+  String restart;//restart game
+  String deathCause;//cause of death
+  boolean firstRunStart = true;//doesn't ask for name again
+  boolean crabInjured = false;//triggers crab insta kill event
+  boolean checkInputTrue = false;
+  int choiceInt;//general choice int var
+  int deathAmount = 0;//amount of times died
+  int levelModifier = 20;//determines how much xp is needed
+  int xp = 0;//amount of xp player hasded for next level
+  int randNum; //determines if certain thing passes or not
+  final short pauseTime = 1500;//constant time interval
+  byte level = 1;//current level
+  //skills
+  byte charisma, constitution, dexterity, intelligence, perception, stealth, strength, survival, wisdom = 0;
+  
+  
+  //main method
+  public static void main(String[] args) {
+    Main myMain = new Main();
+    myMain.start();  
+  }
+  
+  //game start
+  public void start(){
+    if(firstRunStart == true){
+      System.out.println("--Chapter One--");
+      pause(pauseTime);
+      System.out.println("");
+      System.out.println("You wake up in a meadow in the middle of nowhere, with no knowledge of who you are.");
+      pause(pauseTime);
+      System.out.println("You look down and see a dog tag with a name on it.");
+      pause(pauseTime);
+      System.out.print("What is the name:");
+      pause(pauseTime);
+      name = input.nextLine();
+      firstRunStart = false;
+    }else{
+      System.out.println("You wake up in a meadow in the middle of nowhere, with no knowledge of who you are.");
+      pause(pauseTime);
+      System.out.println("You look down and see a dog tag with the name \"" + name + "\" on it.");
+      pause(pauseTime);
+    }
+    System.out.println("You grab the dog tag, put it around your neck and stand up.");
+    pause(pauseTime);
+    chapterOne();
+  }
+    
+  //choiceOne
+  public void chapterOne(){
+    System.out.println("You can see a small cabin to the north.");
+    pause(pauseTime);
+    System.out.println("An old looking fort to the east.");
+    pause(pauseTime);
+    System.out.println("A vast beach to the south.");
+    pause(pauseTime);
+    System.out.println("A small village to the west.");
+    pause(pauseTime);
+    while(true){
+      System.out.print("Which direction would you like to go:");
+      pause(pauseTime);
+      choiceMethod();
+      if(choice.contains("north")){
+        north();
+        break;
+      }else if(choice.contains("east")){
+        east();
+        break;
+      }else if(choice.contains("south")){
+        south();
+        break;
+      }else if(choice.contains("west")){
+        west();
+        break;
+      }else{
+        if(checkInputTrue = false){
+          System.out.println("You try to think of what " + choice + " means, however you can only remeber the four directions presented infront of you.");
+          pause(pauseTime);
+        }
+      }
+    }
+  }
+  
+  //north route
+  public void north(){
+    System.out.println("You approach the cabin, when out of nowhere a 7ft man comes storming out the door, weilding a battle axe.");
+    pause(pauseTime);
+    System.out.println("Man:\"WHAT DO YE WANT!?\"");
+    pause(pauseTime);
+    while(true){
+      System.out.print(name + ":");
+      pause(pauseTime);
+      choiceMethod();
+      if(checkInputTrue == false){
+        break;
+      }
+    }
+    System.out.println("Man:\"" + choice + "? I DON'T GIVE A SHITE!!\"");
+    pause(pauseTime);
+    if(inv.contains("cookie")){
+      System.out.println("The man begins to charge towards you, however stops upon seeing the cookie in your possession.");
+      pause(pauseTime);
+      System.out.println("\"EY! GIVE ME THAT.\"");
+      pause(pauseTime);
+      System.out.println("The man snatches the cookie of you, devouring it in an instant.");
+      pause(pauseTime);
+      System.out.println("Item lost: cookie");
+      inv.remove("cookie");
+      pause(pauseTime);
+      System.out.println("...");
+      pause(pauseTime);
+      System.out.println("The man looks to carry on charging towards you, however his face turns pale white.");
+      pause(pauseTime);
+      System.out.println("Coughing numerous times, he falls to the floor and becomes motionless.");
+      pause(pauseTime);
+      System.out.println("Man died of choking on cookie. +5XP.");
+      pause(pauseTime);
+      xp = xp + 5;
+      levelCheck();
+    }else{
+      System.out.println("The man chargers towards you, lobbing your heading off with one clean swing.");
+      pause(pauseTime);
+      deathCause = "Beheaded by 7ft man";
+      gameOver();
+    }
+    while(true){
+      System.out.print("Would you like to search the cabin:");
+      pause(pauseTime);
+      choiceMethod();
+      if(choice.contains("yes")){
+        System.out.println("You enter the cabin, which is completely empty, except for one chest right in the middle.");
+        pause(pauseTime);
+        while(true){
+          System.out.print("Do you open it:");
+          pause(pauseTime);
+          choiceMethod();
+          if(choice.contains("yes")){
+            System.out.println("You open the chest, gaining some loot.");
+            pause(pauseTime);
+            System.out.println("New item: Bow");
+            pause(pauseTime);
+            System.out.println("New item: 20 Arrows");
+            pause(pauseTime);
+            System.out.println("New item: Chainmail");
+            pause(pauseTime);
+            System.out.println("Bow, 20 arrows and chainmail were added to your inventory.");
+            pause(pauseTime);
+            inv.add("bow");
+            inv.add("20 arrows");
+            inv.add("chainmail");
+            break;
+          }else if(choice.contains("no")){
+            System.out.println("You leave the chest where it is.");
+            pause(pauseTime);
+            break;
+          }else{
+            if(checkInputTrue = false){
+              System.out.println("You try to " + choice + " the chest, however this causes it to somehow explode.");
+              pause(pauseTime);
+              deathCause = "Exploding chest";
+              gameOver();
+            }
+          }
+        }
+        break;
+      }else if(choice.contains("no")){
+        System.out.println("Deciding you've had enough action here for one day, you decide to return back to the place you awoke.");
+        pause(pauseTime);
+        chapterOne();
+      }else{
+        if(checkInputTrue = false){
+          System.out.println("You ponder on what " + choice + " means, however determine your only options are yes or no.");
+          pause(pauseTime);
+        }
+      }
+    }
+    System.out.println("Deciding there is nothing left to do here, you return back to the place you awoke.");
+    pause(pauseTime);
+    chapterOne();
+  }
+  
+  //east route
+  public void east(){
+    System.out.println("You approach the old fort, upon closer inspection, it appears to have been taken over by bandits.");
+    pause(pauseTime);
+    System.out.println("A bandit appears on top of the tallest tower.");
+    pause(pauseTime);
+    if(inv.contains("chainmail")){
+      System.out.println("The bandit fires a crossbow bolt at you.");
+      pause(pauseTime);
+      System.out.println("However, the bolt hits your chainmail and is deflected");
+      pause(pauseTime);
+      System.out.println("Whilst the bandit is panicking, you decide you can either try to shoot an arrow at him, or run.");
+      pause(pauseTime);
+      while(true){
+        System.out.print("What do you do:");
+        pause(pauseTime);
+        choiceMethod();
+        if(choice.contains("shoot") || choice.contains("arrow")){
+          System.out.println("You aim an arrow at the bandits head and release it.");
+          pause(pauseTime);
+          randNum = 1 + (int)(Math.random() * 10);
+          randNum = randNum + dexterity;
+          if(randNum>=5){
+            System.out.println("Your arrow hits the bandit square in his forehead. Dexterity +1. +10XP.");
+            pause(pauseTime);
+            dexterity++;
+            xp = xp + 10;
+            levelCheck();
+            while(true){
+              System.out.print("Now knowing that the fort is occupied by bandits, do you want to continue or return to the field: ");
+              pause(pauseTime);
+              choiceMethod();
+              if(choice.contains("continue") || choice.contains("yes")){
+                System.out.println("You decide to venture further into the fort.");
+                pause(pauseTime);
+                System.out.println("As you pass through the entrance, you find yourself stood in a massive courtyard.");
+                pause(pauseTime);
+                eastCont();
+              }else if(choice.contains("return") || choice.contains("no")){
+                System.out.println("You decide to return to the field.");
+                pause(pauseTime);
+                chapterOne();
+              }else{
+                if(checkInputTrue = false){
+                  System.out.println("You ponder on " + choice + ", however it has no meaning to you.");
+                }
+              }
+            }
+          }else{
+            System.out.println("Your arrow narrowly misses the bandits head.");
+            pause(pauseTime);
+            System.out.println("In this time, the bandit fires another shot, hitting you square in the head.");
+            pause(pauseTime);
+            deathCause = "Killed by bandit";
+            gameOver();
+          }
+        }else if(choice.contains("run")){
+          System.out.println("You take this opportunity to turn around and run.");
+          pause(pauseTime);
+          chapterOne();
+        }else{
+          if(checkInputTrue = false){
+            System.out.println("You try to " + choice + ", however it seems to have no effect.");
+            pause(pauseTime);
+            System.out.println("In this time, the bandit fires another shot, hitting you square in the head.");
+            pause(pauseTime);
+            deathCause = "Killed by bandit";
+            gameOver();
+          }
+        }
+      }
+    }else{
+      System.out.println("The bandit fires a crossbow bolt square into your forehead.");
+      pause(pauseTime);
+      deathCause = "Killed by bandit";
+      gameOver();
+    }
+  }
+  
+  //continuation of east route
+  public void eastCont(){
+    while(true){
+      System.out.print("Do you want to go left or right:");
+      pause(pauseTime);
+      choiceMethod();
+      if(choice.contains("left")){
+        System.out.println("You walk down the left path, eventually reaching a door.");
+        pause(pauseTime);
+        while(true){
+          System.out.print("Do you want to open the door:");
+          pause(pauseTime);
+          choiceMethod();
+          if(choice.contains("yes")){
+            System.out.println("");
+          }else if(choice.contains("no")){
+            System.out.println("You decide to leave the door as it is.");
+            pause(pauseTime);
+            System.out.println("Since their is nothing left to do down this path, you decide to return to the courtyard.");
+            pause(pauseTime);
+            eastCont();
+          }else{
+            System.out.println("You try to " + choice + " the door, alas nothing happens.");
+            pause(pauseTime);
+          }
+        }
+      }else if(choice.contains("right")){
+        System.out.println("You decide to walk down the right path, leading you to be confronted by multiple bandits.");
+        pause(pauseTime);
+        System.out.println("Bandit leader: \"Give me one reason why I shouldn't gut you right now\".");
+        pause(pauseTime);
+        System.out.println("1)I'd like to see you try\n2)Please don't hurt me\n3)I can offer you many potatoes\n4)This is all a misunderstanding");
+        while(true){
+          System.out.print(name + ":");
+          pause(pauseTime);
+          choiceMethod();
+          if(checkInputTrue == false){
+            break;
+          }
+        }
+        if(choice.contains("1")){
+          eastBanditDeath();
+        }else if(choice.contains("2")){
+          
+        }else if(choice.contains("3")){
+          System.out.println("Bandit leader:\"Wh-What? Are you fucking serious?\"");
+          pause(pauseTime);
+          System.out.println("1)Yes\n2)No\n3)Many, many potatoes\n4)You're going to kill me, aren't you");
+          while(true){
+            System.out.print(name + ":");
+            pause(pauseTme);
+            choiceMethod();
+            if(checkInputTrue == false){
+              break;
+            }
+          }
+          if(choice.contains("1")){
+            System.out.println("Bandit leader:\"Well uhm, how about you give us those potatoes, and we let you go.\"");
+            pause(pauseTime);
+            System.out.println("1)Sure thing, they're just down the path I came from\n2)Not gonna happen buster\n3)But they're my potatoes\n4)Uhh yeah, I've got them right here");
+            while(true){
+              System.out.print(name + ":");
+              pause(pauseTime);
+              choiceMethod();
+              if(checkInputTrue == false){
+                break;
+              }
+              if(choice.contains("1")){
+                
+              }else if(choice.contains("2")){
+                
+              }else if(choice.contains("3")){
+                
+              }else if(choice.contains("4")){
+                System.out.println("Banit leader:\"Go on then, hand 'em over.\"");
+                pause(pauseTime);
+                System.out.println("1)Yeahhh they're just down that path\n2)Fuck no\n3)Thing is I can't\n4)Allow me to totally get them for you");
+                while(true){
+                  System.out.print(name + ":");
+                  pause(pauseTime);
+                  choiceMethod();
+                  if(checkInputTrue == false){
+                    break;
+                  }
+                  if(choice.contains("1")){
+                
+                  }else if(choice.contains("2")){
+                    eastBanditDeath();
+                  }else if(choice.contains("3")){
+                
+                  }else if(choice.contains("4")){
+                
+                  }
+                }
+              }
+        }else if(choice.contains("4")){
+          System.out.println("Bandit leader:\"Is it now? Care to explain how so?\"");
+          pause(pauseTime);
+          System.out.println("1)I just sort of ended up here\n2)No, not really\n3)I'm actually your father\n4)Well I was attacked by a massive crab and now here I am");
+          while(true){
+            System.out.print(name + ":");
+            pause(pauseTime);
+            choiceMethod();
+            if(checkInputTrue == false){
+              break;
+            }
+            if(choice.contains("1")){
+              eastBanditDeath();
+            }else if(choice.contains("2")){
+              eastBanditDeath();
+            }else if(choice.contains("3")){
+              eastBanditDeath();
+            }else if(choice.contains("4")){
+              eastBanditDeath();
+            }
+          }
+        }
+          }else if(choice.contains("2")){
+            eastBanditDeath();
+          }else if(choice.contains("3")){
+            
+          }else if(choice.contains("4")){
+            
+          }else{
+        System.out.println("You are unable to " + choice);
+        pause(pauseTime);
+      }
+    }
+  }
+  
+  //happens if the player dies to bandit leader
+  public void eastBanditDeath(){
+    System.out.println("Bandit leader:\"Right I've heard enough.\"");
+    pause(pauseTime);
+    System.out.println("The bandits charge at you so swiftly that you have no time to react.");
+    pause(pauseTime);
+    System.out.println("You are stabbed multiple times by different bandits, but the final blow is delivered by the leader; slicing you in half with his battleaxe.");
+    pause(pauseTime);
+    deathCause = "Slain by bandit leader";
+    gameOver();
+  }
+  
+  //south route
+  public void south(){
+    if(crabInjured == true){
+      System.out.println("The crab that had once been injured appeared to have gained it's sight back.");
+      pause(pauseTime);
+      System.out.println("Defenceless, you are victim to it's pincer attack.");
+      pause(pauseTime);
+      deathCause = "Mutilated by crab";
+      gameOver();
+    }
+    pause(pauseTime);
+    System.out.println("As you arrive on the beach, you see a person lying face down on the floor.");
+    pause(pauseTime);
+    while(true){
+      System.out.print("Do you approach them:");
+      pause(pauseTime);
+      choiceMethod();
+      if(choice.contains("yes")){
+        System.out.println("You approach the man, however there is no sign of life from him.");
+        pause(pauseTime);
+        System.out.println("Upon turning him over, you see that he is deceased, with only a dagger and a cookie in his possession.");
+        pause(pauseTime);
+        while(true){
+          System.out.print("Do you take the dagger:");
+          pause(pauseTime);
+          choiceMethod();
+          if(choice.contains("yes")){
+            System.out.println("New item: Dagger.");
+            pause(pauseTime);
+            System.out.println("Dagger was added to your inventory.");
+            pause(pauseTime);
+            inv.add("dagger");
+            break;
+          }else if(choice.contains("no")){
+            System.out.println("You leave the dagger where it is.");
+            pause(pauseTime);
+            break;
+          }else{
+            if(checkInputTrue = false){
+              System.out.println("You try to " + choice + " the dagger, however doing so, you end up cutting yourself on it, causing you to bleed out.");
+              deathCause = choice + " the dagger";
+              gameOver();
+            }
+          }
+        }
+        while(true){
+          System.out.print("Do you take the cookie:");
+          pause(pauseTime);
+          choiceMethod();
+          if(choice.contains("yes")){
+            System.out.println("New item: Cookie.");
+            pause(pauseTime);
+            System.out.println("Cookie was added to your inventory.");
+            pause(pauseTime);
+            inv.add("cookie");
+            break;
+          }else if(choice.contains("no")){
+            System.out.println("You leave the cookie where it is.");
+            pause(pauseTime);
+            break;
+          }else{
+            if(checkInputTrue = false){
+              System.out.println("You try to " + choice + " the cookie, however it seems to have no effect.");
+            }
+          }
+        }
+        break;
+      }else if(choice.contains("no")){
+        System.out.println("You decide to leave the poor, possibly injured man on his own.");
+        pause(pauseTime);
+        break;
+      }else{
+        if(checkInputTrue = false){
+          System.out.println("The meaning of " + choice + " is on the tip of your tounge, however the only options you can fathom are yes and no.");
+          pause(pauseTime);
+        }
+      }
+    }
+    System.out.println("As you are walking away, an obese sized crab emerges from the ocean.");
+    pause(pauseTime);
+    if(inv.contains("dagger")){
+      System.out.println("With a dagger in your hand, you feel yourself presented with 3 options: Throw the dagger, charge, or run.");
+      pause(pauseTime);
+      while(true){
+        System.out.print("What do you do:");
+        pause(pauseTime);
+        choiceMethod();
+        if(choice.contains("throw") || choice.contains("throw the dagger") || choice.contains("throw dagger")){
+          System.out.println("You throw the dagger, which somehow hits the crab in the eye; blinding it. +5XP");
+          pause(pauseTime);
+          xp = xp + 5;
+          levelCheck();
+          System.out.println("Using this chance, you escape back to the meadow.");
+          pause(pauseTime);
+          System.out.println("Item lost: Dagger.");
+          inv.remove("dagger");
+          crabInjured = true;
+          chapterOne();
+        }else if(choice.contains("charge")){
+          System.out.println("You charge at the crab, however before you can reach it, it grabs you with it's pincers; slicing you in half");
+          pause(pauseTime);
+          deathCause = "Mutilated by crab";
+          gameOver();
+        }else if(choice.contains("run")){
+          System.out.println("You try to run away, however the crabs reach is too great; grabbing you with it's pincers, it slices you in half.");
+          deathCause = "Mutilated by crab";
+          gameOver();
+        }else{
+          if(checkInputTrue = false){
+            System.out.println("You try to " + choice +", however it doesn't seem to work.");
+            pause(pauseTime);
+            System.out.println("The crab grabs you with it's pincers and slices you in half.");
+            deathCause = "Mutilated by crab";
+            gameOver();
+          }
+        }
+      }
+    }else{
+      System.out.println("Defenceless, the crab, grabbing you with it's pincers, slices you in half.");
+      pause(pauseTime);
+      deathCause = "Mutilated by crab";
+      gameOver();
+    }
+  }
+  
+  //west route
+  public void west(){
+    System.out.println("You approach the border of a small village, when a guard stops your path.");
+    pause(pauseTime);
+    System.out.println("Guard:\"Halt! What is your business in Alam?\"");
+    pause(pauseTime);
+    while(true){
+      System.out.print(name + ":");
+      pause(pauseTime);
+      choiceMethod();
+    }
+  }
+  
+  //death system
+  public void gameOver(){
+    deathAmount++;
+    deathList.add(deathCause);
+    pause(pauseTime);
+    System.out.println("...");
+    pause(pauseTime);
+    System.out.println("You have died.");
+    pause(pauseTime);
+    System.out.println("Cause of death: " + deathCause + ".");
+    pause(pauseTime);
+    System.out.println("Death count: " + deathAmount + ".");
+    pause(pauseTime);
+    while(true){
+      System.out.print("Would you like to restart:");
+      restart = input.nextLine();
+      restart = restart.toLowerCase();
+      if(restart.contains("yes")){
+        start();
+      }else if(restart.contains("no")){
+        result();
+      }else{
+        System.out.println("Please enter yes or no.");
+        pause(pauseTime);
+      }
+    }
+  }
+
+  //pause time
+  public void pause(int time){
+    try{
+      Thread.sleep(time);
+    }catch(InterruptedException e){
+    }
+  }
+  
+  //allows user to access player information
+  public void checkInput(){
+    if(choice.contains("skills") || choice.contains("skill")){
+      checkInputTrue = true;
+      System.out.println("--Current Skills--");
+      pause(500);
+      System.out.println("");
+      System.out.println("Charisma = " + charisma + "/100");
+      pause(500);
+      System.out.println("Constitution = " + constitution + "/100");
+      pause(500);
+      System.out.println("Dexterity = " + dexterity + "/100");
+      pause(500);
+      System.out.println("Intelligence = " + intelligence + "/100");
+      pause(500);
+      System.out.println("Perception = " + perception + "/100");
+      pause(500);
+      System.out.println("Stealth = " + stealth + "/100");
+      pause(500);
+      System.out.println("Strength = " + strength + "/100");
+      pause(500);
+      System.out.println("Survival = " + survival + "/100");
+      pause(500);
+      System.out.println("Wisdom = " + wisdom + "/100");
+      pause(pauseTime);
+    }else if(choice.contains("inv") || choice.contains("inventory")){
+      checkInputTrue = true;
+      System.out.println("--Current inventory--");
+      pause(500);
+      System.out.println("");
+      System.out.println(inv);
+      pause(pauseTime);
+    }else if(choice.contains("level") || choice.contains("lvl")){
+      checkInputTrue = true;
+      System.out.println("You are level " + level + ".");
+      pause(pauseTime);
+    }else{
+      return;
+    }
+  }
+  
+  //level system
+  public void levelCheck(){
+    while(xp >=levelModifier){
+      xp = xp - levelModifier;
+      levelModifier = levelModifier * 2;
+      level++;
+      System.out.println("Congratulations! You have reached level " + level + ".");
+      pause(pauseTime);
+      System.out.println("Please choose the skill you would like to allocate your skill points into.");
+      pause(pauseTime);
+      System.out.println("1.Charisma");
+      pause(500);
+      System.out.println("2.Constitution");
+      pause(500);
+      System.out.println("3.Dexterity");
+      pause(500);
+      System.out.println("4.Intelligence");
+      pause(500);
+      System.out.println("5.Perception");
+      pause(500);
+      System.out.println("6.Stealth");
+      pause(500);
+      System.out.println("7.Strength");
+      pause(500);
+      System.out.println("8.Survival");
+      pause(500);
+      System.out.println("9.Wisdom");
+      pause(pauseTime);
+      while(true){
+        System.out.print("Choice:");
+        pause(pauseTime);
+        choiceInt = input.nextInt();
+        if(choiceInt == 1){
+          charisma += 5;
+          System.out.println("Charisma +5.");
+          break;
+        }else if(choiceInt == 2){
+          constitution += 5;
+          System.out.println("Constitution +5.");
+          break;
+        }else if(choiceInt == 3){
+          dexterity += 5;
+          System.out.println("Dexterity +5.");
+          break;
+        }else if(choiceInt == 4){
+          intelligence += 5;
+          System.out.println("Intelligence +5.");
+          break;
+        }else if(choiceInt == 5){
+          perception += 5;
+          System.out.println("Perception +5.");
+          break;
+        }else if(choiceInt == 6){
+          stealth += 5;
+          System.out.println("Stealth +5.");
+          break;
+        }else if(choiceInt == 7){
+          strength += 5;
+          System.out.println("Strength +5.");
+          break;
+        }else if(choiceInt == 8){
+          survival += 5;
+          System.out.println("Survival +5.");
+          break;
+        }else if(choiceInt == 9){
+          wisdom += 5;
+          System.out.println("Wisdom +5.");
+          break;
+        }else{
+          System.out.println("Please enter a valid number.");
+        }
+      }
+    }
+  }
+  
+  public void choiceMethod(){
+    choice = input.nextLine();
+    choice = choice.toLowerCase();
+    checkInputTrue = false;
+    checkInput();
+  }
+  
+  //final result
+  public void result(){
+    System.out.println(name + "! You were killed a total of " + deathAmount + " times!");
+    pause(pauseTime);
+    System.out.println("These deaths were caused by the following:");
+    pause(pauseTime);
+    System.out.println(deathList);
+    pause(pauseTime);
+    System.out.println("The End!");
+    System.exit(0);
+  }
+
+}
