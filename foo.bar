@@ -1,0 +1,53 @@
+//First google challenge thingie
+//Quite happy I managed to solve it, although I dislike the way I went about it
+//If I where to amend it, I'd split up/filter down the answer method
+
+import java.util.*;
+
+public class Main{
+  public static void main(String[] args){
+    Scanner input = new Scanner(System.in);
+    int area;
+    System.out.print("Please enter the area:");
+    area = input.nextInt();
+    System.out.println(java.util.Arrays.toString(answer(area)));
+  }
+  
+  public static int[] answer(int area){
+    int panel = 0;
+    int tempArea = area;
+    int x = 1;
+    int i;
+    int[] panelList;
+    for(i = 0; 0<tempArea; i++){
+      while(true){
+        panel = (x*x);
+        if(panel>tempArea){
+          x--;
+          break;
+        }else{
+          x++;
+        }
+      }
+      tempArea = tempArea - (x*x);
+      x = 1;
+    }
+    panelList = new int[i];
+    //x = 1;
+    for(i = 0; 0<area; i++){
+      while(true){
+        panel = (x*x);
+        if(panel>area){
+          x--;
+          break;
+        }else{
+          x++;
+        }
+      }
+      panelList[i] = (x*x);
+      area = area - (x*x);
+      x = 1;
+    }
+    return panelList;
+  }
+}
