@@ -1,6 +1,4 @@
-//First google challenge thingie
-//Quite happy I managed to solve it, although I dislike the way I went about it
-//If I where to amend it, I'd split up/filter down the answer method
+//Google foo.bar
 
 import java.util.*;
 
